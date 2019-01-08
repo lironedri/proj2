@@ -51,3 +51,4 @@ void Client::clientWrite(string data) {
 int Client::getSocket() {
     return this->m_socket;
 }
+

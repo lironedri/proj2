@@ -17,6 +17,7 @@ int main(int argc, const char *argv[]) {
 
 }
 
+
 void StartClient() {
     int clientSocket;
     SocketWriteRead socketWriteRead;

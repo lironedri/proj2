@@ -66,3 +66,7 @@ void MyParallelServer::stop() {
 
     close(this->m_socket);
 }
+
+
+
+

@@ -18,15 +18,13 @@ namespace server_side {
          * @param port - to listen
          * @param c - type of talk with the client
          */
-         //TODO: add the ClientHandler c
-        virtual void open(int port/*, ClientHandler c*/) = 0;
+        virtual void open(int port, ClientHandler* c) = 0;
 
         /**
          * the function close the server
          */
         virtual void stop() = 0;
 
-        virtual void listenToClients() = 0;
 
     };
 

@@ -1,72 +1,114 @@
-#include "MyParallelServer.h"
-
-MyParallelServer::MyParallelServer(int port) {
-    this->m_port = port;
-    this->m_socket = -1;
-}
-
-//TODO
-void MyParallelServer::open(int port/*, ClientHandler c*/){
-    this->m_port = port;
-    /* First call to socket() function */
-    this->m_socket = socket(AF_INET, SOCK_STREAM, 0);
-
-    if (this->m_socket < 0) {
-        perror("ERROR opening socket");
-        exit(1);
-    }
-}
-
-void MyParallelServer::listenToClients() {
-    struct sockaddr_in serv_addr;
-
-    /* Initialize socket structure */
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons(this->m_port);
-
-    /* Now bind the host address using bind() call.*/
-    if (bind(this->m_socket, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR on binding");
-        exit(1);
-    }
-
-    /* Now start listening for the clients, here process will
-       * go in sleep mode and will wait for the incoming connection
-    */
-
-    listen(this->m_socket, 5);
-}
-
-
-int MyParallelServer::serverAccept() {
-    int clilen, clientSocket;
-    struct sockaddr_in cli_addr;
-
-    clilen = sizeof(cli_addr);
-
-    /* Accept actual connection from the client */
-    clientSocket = accept(this->m_socket, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
-
-    if (clientSocket < 0) {
-        perror("ERROR on accept");
-        exit(1);
-    }
-
-    this->m_clientSocketsVector.push_back(clientSocket);
-    return clientSocket;
-}
-
-void MyParallelServer::stop() {
-    for (auto &it: this->m_clientSocketsVector) {
-        close(it);
-    }
-
-    close(this->m_socket);
-}
-
-
-
-
+//#include "MyParallelServer.h"
+//#include <pthread.h>
+//#include <sys/socket.h>
+//#include <netinet/in.h>
+//#include <strings.h>
+//#include <unistd.h>
+//#include <stdio.h>
+//
+///**
+// * open thread to make communicate by
+// * @param port
+// * @param c
+// */
+//void server_side::MyParallelServer::open(int port,ClientHandler *c) {
+//    ServerStruct *serverStruct;
+//    serverStruct = new ServerStruct();
+//    serverStruct->port = port;
+//    serverStruct->clientHandler = c;
+//    //boolean indicator to stop the thread
+//    serverStruct->shouldStop = &shouldStop;
+//    pthread_t thread;
+//    //the thread start working
+//    pthread_create(&thread, nullptr, thread_OpenDataServer, serverStruct);
+//    //list of threads to remember verify that the all threads closed.
+//    threadList.push_back(thread);
+//}
+//
+///**
+// * close the server - wait for all threads to stop
+// */
+//void server_side::MyParallelServer::stop() {
+//    shouldStop = true;
+//    for (int i=0; i<threadList.size(); i++) {
+//        pthread_join(threadList[i], nullptr);
+//    }
+//}
+//
+///**
+// * that what the thread do when he create
+// * @param arg
+// * @return
+// */
+//void *MyParallelServer::thread_OpenDataServer(void *arg) {
+//    //cast the args to pointer to the server struct
+//    ServerStruct *args = (ServerStruct *) arg;
+//
+//    int mainSocket; // main socket fileDescriptor
+//    int newsockfd; // new socket fileDescriptor
+//    int clilen;
+//
+//    struct sockaddr_in serv_addr, cli_addr;
+//
+//    //creating socket object
+//    mainSocket = socket(AF_INET, SOCK_STREAM, 0);
+//    //if creation faild
+//    if (mainSocket < 0) {
+//        perror("ERROR opening socket");
+//        exit(1);
+//    }
+//
+//    //Initialize socket structure
+//    bzero((char *) &serv_addr, sizeof(serv_addr));
+//
+//    serv_addr.sin_family = AF_INET; // tcp server
+//    serv_addr.sin_addr.s_addr = INADDR_ANY; //server ip (0.0.0.0 for all incoming connections)
+//    serv_addr.sin_port = htons(args->port); //init server port
+//
+//    //bind the host address using bind() call
+//    if (bind(mainSocket, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+//        //if binding faild
+//        perror("ERROR on binding");
+//        exit(1);
+//    }
+//
+//
+//    //start listening for the clients using the main socket
+//    listen(mainSocket, 1);
+//    clilen = sizeof(cli_addr);
+//
+//    //TODO: change this while loop to make it parallel
+//    while (!*args->shouldStop) {
+//        timeval timeout;
+//        timeout.tv_sec = 10;
+//        timeout.tv_usec = 0;
+//        setsockopt(mainSocket, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
+//        //accept actual connection from the client
+//        newsockfd = accept(mainSocket, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
+//
+//
+//        //if connections with the client failed
+//        if (newsockfd < 0) {
+//            if(*args->shouldStop){
+//                break;
+//            }
+//            if (errno == EWOULDBLOCK) {
+//                continue;
+//            }
+//            perror("ERROR on accept");
+//            exit(1);
+//        }
+//        //the handler client take care of the client requirements
+//        args->clientHandler->handleClient(newsockfd);
+//
+//    }
+//
+//    close(mainSocket);
+//    delete (args->clientHandler);
+//    delete (args);
+//    return nullptr;
+//}
+//
+//
+//
+//

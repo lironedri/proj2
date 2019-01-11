@@ -2,12 +2,17 @@
 #include <thread>
 #include "MySerialServer.h"
 #include "MyTestClientHandler.h"
-
+#include "StringSolver.h"
+#include "Solver.h"
+#include "FileCacheManager.h"
 
 using namespace server_side;
+
 int main(int argc, const char *argv[]) {
     Server* server = new MySerialServer();
-    ClientHandler* clientHandler = new MyTestClientHandler;
+    Solver<string, string>* solver = new StringSolver();
+    CacheManager<string,string>* cacheManager = new FileCacheManager<string, string>("ps.txt");
+    ClientHandler* clientHandler = new MyTestClientHandler(solver, cacheManager);
 
     server->open(5400 ,clientHandler);
     this_thread::sleep_for(chrono::milliseconds(100000000));

@@ -4,17 +4,9 @@
 #include "FileCacheManager.h"
 
 
-void MyTestClientHandler::handleClient(int socketID) {
-//    char buf[1024];
-//    int numBytesRead;
-//    numBytesRead = recv(socketID, buf, sizeof(buf), 0);
-//    string ans = buf;
-//    ans+="l\n";
-//    size_t n;
-//    n = write(socketID, ans.c_str(), ans.length());
-//}
+void server_side::MyTestClientHandler::handleClient(int socketID) {
         string problem = "";
-        string ans;
+        string ans = "";
         while (true) {
             char buf[1024];
             int numBytesRead = recv(socketID, buf, sizeof(buf), 0);
@@ -28,15 +20,13 @@ void MyTestClientHandler::handleClient(int socketID) {
                                 close(socketID);
                                 return;
                             }
-                           // FileCacheManager<string, string> strCM;
-//                            if (strCM.isSolutionSaved(problem)) {
-//                                //ans = cacheManager->popSolution(problem);
-//                            } else {
-//                                ans = solver->solve(problem);
-//                                cacheManager->pushSolution(problem, ans);
-//                            }
-//                            //ans = ans + "\n";
-                            ans = "dekel";
+                            if (m_cacheManager->isSolutionSaved(problem)) {
+                                ans = m_cacheManager->getSolution(problem);
+                            } else {
+                                ans = m_solver->solve(problem);
+                                m_cacheManager->saveSolution(problem, ans);
+                            }
+
                             ssize_t n;
 
                             // Send message
@@ -47,7 +37,7 @@ void MyTestClientHandler::handleClient(int socketID) {
                                 return;
                             }
 
-
+                            ans = "";
                             problem = "";
                         }
                     } else problem += c;

@@ -3,15 +3,31 @@
 
 #include "CacheManager.h"
 #include <string>
+#include <map>
+#include <fstream>
 
 using namespace std;
 template <class P, class S>
 
-class FileCacheManager : public CacheManager<P, S>{
+class FileCacheManager : public CacheManager<string, string>{
+    map<string, string> m_problemSolutionMap;
     string m_fileName;
 public:
     FileCacheManager (string fileName){
         this->m_fileName = fileName;
+        string problem = "";
+        string solution = "";
+        ifstream myFile(fileName);
+        if (myFile.is_open()) {
+            while (!myFile.eof()) {
+                getline(myFile, problem, ',');
+                getline(myFile, solution);
+                if (problem != "") {
+                    m_problemSolutionMap[problem] = solution;
+                }
+            }
+            myFile.close();
+        }
     }
 
     /**
@@ -20,7 +36,11 @@ public:
  * @param problem - the problem that we look for a solution that solve it.
  * @return boolean value
  */
+ //todo mutex
     virtual bool isSolutionSaved(P problem) {
+        if (m_problemSolutionMap.count(problem)){
+            return true;
+        }
         return false;
     }
 
@@ -30,14 +50,27 @@ public:
      * @return
      */
     //TODO: start the function with: if(isSolutionSaved(problem))
-    virtual S getSolution(P problem) {}
+    virtual S getSolution(P problem) {
+        if (isSolutionSaved(problem)){
+            return m_problemSolutionMap.at(problem);
+        } else {
+            perror("saved solution doe's not exist");
+        }
+    }
 
     /**
      * the function save the given solution in the cache
      * @param solution
      */
     //TODO: check if we have to get a problem (maybe to save a solution-prob Map)
-    virtual void saveSolution(S solution) {}
+    virtual void saveSolution(P problem, S solution) {
+        m_problemSolutionMap[problem] = solution;
+        ofstream myFile(m_fileName, ios::app);
+        if (myFile.is_open()) {
+            myFile << problem + "," + solution + "\n";
+            myFile.close();
+        }
+    }
 };
 
 

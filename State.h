@@ -1,6 +1,8 @@
 #ifndef PROJ2_STATE_H
 #define PROJ2_STATE_H
 
+#define OUT_OF_RANGE -2
+
 using namespace std;
 
 template <class T>
@@ -12,6 +14,7 @@ class State {
 public:
     State<T>(T state) {
         this->m_state = state;
+        this->m_cost = OUT_OF_RANGE;
     }
 
     bool Equals(State<T> s) {
@@ -29,6 +32,12 @@ public:
     T getState(){
         return this->m_state;
     }
+
+    double getCost (){
+        return this->m_cost;
+    }
+
+    State(){}
 };
 
 

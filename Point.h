@@ -5,6 +5,7 @@ class Point {
     double m_x;
     double m_y;
 public:
+
     Point(double x, double y){
         this->m_x = x;
         this->m_y = y;
@@ -18,6 +19,8 @@ public:
         return this->m_y;
     }
 
+
+    Point(){}
 };
 
 

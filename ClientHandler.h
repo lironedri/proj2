@@ -7,6 +7,7 @@ namespace server_side {
     class ClientHandler {
     public:
         virtual void handleClient(int socketID) = 0;
+        virtual ~ClientHandler(){}
     };
 }
 

@@ -1,0 +1,10 @@
+#ifndef PROJ2_ALGOBESTFIRSTSEARCH_H
+#define PROJ2_ALGOBESTFIRSTSEARCH_H
+
+
+class AlgoBestFirstSearch {
+
+};
+
+
+#endif //PROJ2_ALGOBESTFIRSTSEARCH_H

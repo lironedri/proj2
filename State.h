@@ -37,6 +37,14 @@ public:
         return this->m_cost;
     }
 
+    bool operator== (State<T> s) {
+        return (getState() == s.getState());
+    }
+
+//    bool operator<(State<T> leftState, State<T> rightState){
+//        return leftState.getCost() < rightState.getCost() ? true: false;
+//    }
+
     State(){}
 };
 

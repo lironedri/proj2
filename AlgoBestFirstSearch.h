@@ -5,9 +5,11 @@
 #include "Searcher.h"
 #include "vector"
 
+template <class T>
 
-class AlgoBestFirstSearch : public Searcher<vector<string>>{
-    virtual <vector<string>> search(Searchable searchable);
+class AlgoBestFirstSearch : public Searcher<T, vector<State<T>*>>{
+public:
+    vector<State<T>*> search(Searchable<T>* searchable);
     virtual int getNumOfNodesEvaluated();
 };
 

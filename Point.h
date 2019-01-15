@@ -19,6 +19,10 @@ public:
         return this->m_y;
     }
 
+    bool operator==(Point p) {
+        return (this->m_x == p.getX() && this->m_y == p.getY());
+    }
+
 
     Point(){}
 };

@@ -48,7 +48,7 @@ void MatrixProblemClientHandler::handleClient(int socketID) {
 
     while (true) {
         char buf[1024];
-        int numBytesRead = recv(socketID, buf, sizeof(buf), 0);
+        int numBytesRead = read(socketID, buf, sizeof(buf));
 
         if (numBytesRead > 0) {
             for (int i = 0; i < numBytesRead; i++) {
@@ -58,16 +58,16 @@ void MatrixProblemClientHandler::handleClient(int socketID) {
                         lineNumCounter++;
                         if (!line.compare("end")) {
 
-                            vector<double> goal = allLines.at(lineNumCounter);
+                            vector<double> goal = allLines[allLines.size()-1];
                             Point goalPoint(goal.at(0), goal.at(1));
-                            State<Point>* goalState = new State<Point>(goalPoint);
+                            auto * goalState = new State<Point>(goalPoint);
                             allLines.pop_back();
-                            vector<double> init = allLines.at(lineNumCounter - 1);
+                            vector<double> init = allLines[allLines.size()-1];
                             Point initPoint(init.at(0), init.at(1));
-                            State<Point>* initState = new State<Point>(initPoint);
+                            auto * initState = new State<Point>(initPoint);
                             allLines.pop_back();
 
-                            for(size_t i = 0; i < lineNumCounter - 2; i++) {
+                            for(size_t i = 0; i < allLines.size(); i++) {
                                 vector<State<Point>> v = convertLineToMatrixRow(allLines.at(i), i);
                                 matrix.push_back(v);
                             }
@@ -111,6 +111,7 @@ void MatrixProblemClientHandler::handleClient(int socketID) {
             if (errno == EWOULDBLOCK) {
                 continue;
             }
+            perror("error on read");
             close(socketID);
             return;
         }

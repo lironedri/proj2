@@ -60,6 +60,13 @@ void *MySerialServer::serverThread(void *arg) {
         exit(1);
     }
 
+    int n = 1;
+    if (setsockopt(mainSocket, SOL_SOCKET, SO_REUSEADDR, &n, sizeof(int)) < 0)  {
+        perror("error on setsockopt\n");
+        exit(1);
+    }
+
+
     //Initialize socket structure
     bzero((char *) &serv_addr, sizeof(serv_addr));
 

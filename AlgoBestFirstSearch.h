@@ -76,21 +76,21 @@ public:
     }
 
     string convertSolutionToString(vector<State<Problem>*> vecSol){
-        string sol = "";
+        string sol;
         size_t vecSize = vecSol.size();
-        for(size_t i = 0; i < vecSize; i++){
+        for(size_t i = 0; i < vecSize - 1; i++){
 
             Point firstStatePoint = vecSol.at(i)->getState();
             Point secondStatePoint = vecSol.at(i + 1)->getState();
 
             if (firstStatePoint.getX() > secondStatePoint.getX()) {
-                sol = sol + "Up, ";
+                sol += "Up, ";
             } else if (firstStatePoint.getX() < secondStatePoint.getX()) {
-                sol = sol + "Down, ";
+                sol += "Down, ";
             } else if (firstStatePoint.getY() > secondStatePoint.getY()) {
-                sol = sol + "Left, ";
+                sol += "Left, ";
             } else if (firstStatePoint.getY() < secondStatePoint.getY()) {
-                sol = sol + "Right, ";
+                sol += "Right, ";
             }
         }
         return sol;

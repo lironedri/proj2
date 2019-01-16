@@ -5,6 +5,7 @@
 #include "Searcher.h"
 #include "vector"
 #include "MyPriorityQueue.h"
+#include "Point.h"
 
 using namespace std;
 
@@ -75,8 +76,24 @@ public:
     }
 
     string convertSolutionToString(vector<State<Problem>*> vecSol){
-        //todo
-        return "liron";
+        string sol = "";
+        size_t vecSize = vecSol.size();
+        for(size_t i = 0; i < vecSize; i++){
+
+            Point firstStatePoint = vecSol.at(i)->getState();
+            Point secondStatePoint = vecSol.at(i + 1)->getState();
+
+            if (firstStatePoint.getX() > secondStatePoint.getX()) {
+                sol = sol + "Up, ";
+            } else if (firstStatePoint.getX() < secondStatePoint.getX()) {
+                sol = sol + "Down, ";
+            } else if (firstStatePoint.getY() > secondStatePoint.getY()) {
+                sol = sol + "Left, ";
+            } else if (firstStatePoint.getY() < secondStatePoint.getY()) {
+                sol = sol + "Right, ";
+            }
+        }
+        return sol;
     }
 
     AlgoBestFirstSearch(){

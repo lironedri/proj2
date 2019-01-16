@@ -19,13 +19,13 @@ using namespace std;
 
 int main(int argc, const char *argv[]) {
     Server* server = new MySerialServer();
-    Searcher<string, string>* algoType = new AlgoBestFirstSearch<string, string>();
+    Searcher<Point, string>* algoType = new AlgoBestFirstSearch<Point, string>();
     Solver<SearchableMatrix*, string>* solver = new MatrixProblemSolver(algoType);
     CacheManager<string,string>* cacheManager = new FileCacheManager<string, string>("ps.txt");
     ClientHandler* clientHandler = new MatrixProblemClientHandler(solver, cacheManager);
 
     server->open(5400 ,clientHandler);
-    this_thread::sleep_for(chrono::milliseconds(100000000));
+    this_thread::sleep_for(chrono::milliseconds(1000000000000));
 
     server->stop();
 //

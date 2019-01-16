@@ -21,6 +21,8 @@ vector<double> splitToDoubleByChar(string str, char c){
             num = "";
         }
     }
+    string::size_type sz;
+    vec.push_back(stod(num, &sz));
     return vec;
 }
 

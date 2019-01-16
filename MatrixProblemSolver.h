@@ -10,9 +10,9 @@
 namespace server_side {
 
     class MatrixProblemSolver : public Solver<SearchableMatrix*, string>{
-        Searcher<string, string>* m_algoType;
+        Searcher<Point, string>* m_algoType;
     public:
-        MatrixProblemSolver(Searcher<string, string>* algoType){
+        MatrixProblemSolver(Searcher<Point, string>* algoType){
             this->m_algoType = algoType;
         }
         virtual string solve(SearchableMatrix* problem);

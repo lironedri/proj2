@@ -13,7 +13,7 @@ class AlgoBestFirstSearch : public Searcher<vector<State<T>*>, T>{
     MyPriorityQueue<T> m_closedList;
 
 public:
-    vector<State<T>*> search(Searchable<T> *searchable) {
+    virtual vector<State<T>*> search(Searchable<T> *searchable) {
         this->numOfNodesEvaluated = 0;
         //adding the initalState to the open list.
         State<T> *init = searchable->getInitialState();
@@ -94,6 +94,9 @@ public:
         }
     }
 
+    AlgoBestFirstSearch(){
+
+    }
 };
 
 

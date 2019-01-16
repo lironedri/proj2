@@ -36,7 +36,6 @@ public:
  * @param problem - the problem that we look for a solution that solve it.
  * @return boolean value
  */
- //todo mutex
     virtual bool isSolutionSaved(P problem) {
         if (m_problemSolutionMap.count(problem)){
             return true;
@@ -49,7 +48,6 @@ public:
      * @param problem
      * @return
      */
-    //TODO: start the function with: if(isSolutionSaved(problem))
     virtual S getSolution(P problem) {
         if (isSolutionSaved(problem)){
             return m_problemSolutionMap.at(problem);
@@ -62,7 +60,6 @@ public:
      * the function save the given solution in the cache
      * @param solution
      */
-    //TODO: check if we have to get a problem (maybe to save a solution-prob Map)
     virtual void saveSolution(P problem, S solution) {
         m_problemSolutionMap[problem] = solution;
         ofstream myFile(m_fileName, ios::app);

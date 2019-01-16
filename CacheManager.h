@@ -17,14 +17,12 @@ public:
      * @param problem
      * @return
      */
-     //TODO: start the function with: if(isSolutionSaved(problem))
     virtual S getSolution(P problem) = 0;
 
     /**
      * the function save the given solution in the cache
      * @param solution
      */
-     //TODO: chack if we have to get a problem (maybe to save a solution-prob Map)
     virtual void saveSolution(P problem, S solution) = 0;
 };
 

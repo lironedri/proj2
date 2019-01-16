@@ -19,7 +19,6 @@ using namespace server_side;
 int main(int argc, const char *argv[]) {
     Server* server = new MySerialServer();
     Searcher<SearchableMatrix, string>* algoType = new AlgoBestFirstSearch<Point>();
-    AlgoBestFirstSearch<Point>* = new AlgoBestFirstSearch<Point>();
     Solver<SearchableMatrix, string>* solver = new MatrixProblemSolver(algoType);
     CacheManager<string,string>* cacheManager = new FileCacheManager<string, string>("ps.txt");
     ClientHandler* clientHandler = new MatrixProblemClientHandler(solver, cacheManager);

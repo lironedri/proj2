@@ -11,10 +11,10 @@ using namespace std;
 using namespace server_side;
 
 class MatrixProblemClientHandler : public ClientHandler {
-    Solver<SearchableMatrix, string> *m_solver;
+    Solver<SearchableMatrix*, string> *m_solver;
     CacheManager<string, string> *m_cacheManager;
 public:
-    MatrixProblemClientHandler(Solver<SearchableMatrix, string> *solver, CacheManager<string, string> *cacheManager){
+    MatrixProblemClientHandler(Solver<SearchableMatrix*, string> *solver, CacheManager<string, string> *cacheManager){
         this->m_solver = solver;
         this->m_cacheManager = cacheManager;
     }

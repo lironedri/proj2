@@ -15,15 +15,16 @@
 #include "AlgoBestFirstSearch.h"
 
 using namespace server_side;
+using namespace std;
 
 int main(int argc, const char *argv[]) {
     Server* server = new MySerialServer();
-    Searcher<SearchableMatrix, string>* algoType = new AlgoBestFirstSearch<Point>();
-    Solver<SearchableMatrix, string>* solver = new MatrixProblemSolver(algoType);
+    Searcher<string, string>* algoType = new AlgoBestFirstSearch<string, string>();
+    Solver<SearchableMatrix*, string>* solver = new MatrixProblemSolver(algoType);
     CacheManager<string,string>* cacheManager = new FileCacheManager<string, string>("ps.txt");
     ClientHandler* clientHandler = new MatrixProblemClientHandler(solver, cacheManager);
 
-    //server->open(5400 ,clientHandler);
+    server->open(5400 ,clientHandler);
     this_thread::sleep_for(chrono::milliseconds(100000000));
 
     server->stop();

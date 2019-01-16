@@ -7,22 +7,22 @@
 
 
 class Matrix {
-    vector<vector<State<Point>>> m_matrix;
+    vector<vector<State<Point>>>* m_matrix;
 
 public:
-    Matrix(vector<vector<State<Point>>> matrix){
+    Matrix(vector<vector<State<Point>>>* matrix){
         this->m_matrix = matrix;
     }
 
     int calculateNumOfRows();
     int calculateNumOfColumns();
-    double getXCoordinate(State<Point> state);
-    double getYCoordinate(State<Point> state);
-    State<Point> getLeftNeighbor(State<Point> state);
-    State<Point> getRightNeighbor(State<Point> state);
-    State<Point> getUpNeighbor(State<Point> state);
-    State<Point> getDownNeighbor(State<Point> state);
-    vector<State<Point>> getAllNeighbors(State<Point> state);
+    double getXCoordinate(State<Point>* state);
+    double getYCoordinate(State<Point>* state);
+    State<Point>* getLeftNeighbor(State<Point>* state);
+    State<Point>* getRightNeighbor(State<Point>* state);
+    State<Point>* getUpNeighbor(State<Point>* state);
+    State<Point>* getDownNeighbor(State<Point>* state);
+    vector<State<Point>*> getAllNeighbors(State<Point>* state);
 
 
 };

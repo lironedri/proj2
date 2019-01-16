@@ -58,11 +58,11 @@ void MatrixProblemClientHandler::handleClient(int socketID) {
 
                             vector<double> goal = allLines.at(lineNumCounter);
                             Point goalPoint(goal.at(0), goal.at(1));
-                            State<Point> goalState(goalPoint);
+                            State<Point>* goalState = new State<Point>(goalPoint);
                             allLines.pop_back();
                             vector<double> init = allLines.at(lineNumCounter - 1);
                             Point initPoint(init.at(0), init.at(1));
-                            State<Point> initState(initPoint);
+                            State<Point>* initState = new State<Point>(initPoint);
                             allLines.pop_back();
 
                             for(size_t i = 0; i < lineNumCounter - 2; i++) {
@@ -70,7 +70,7 @@ void MatrixProblemClientHandler::handleClient(int socketID) {
                                 matrix.push_back(v);
                             }
 
-                            SearchableMatrix searchableMatrix(initState, goalState, matrix);
+                            SearchableMatrix* searchableMatrix = new SearchableMatrix(initState, goalState, &matrix);
 
                             /*if (m_cacheManager->isSolutionSaved(line)) {
                                 serverSolution = m_cacheManager->getSolution(line);

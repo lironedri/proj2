@@ -5,18 +5,15 @@
 #include "Point.h"
 #include "Matrix.h"
 
-enum Sucssesors {LEFT_SUSSESOR, RIGHT_SUSSESOR, UP_SUCSSESOR, RIGHT_SUCSSESOR};
-
-
 class SearchableMatrix : public Searchable<Point>, Matrix{
 public:
-    SearchableMatrix(State<Point> init, State<Point> goal,/* vector<State<Point>> states,*/
-            vector<vector<State<Point>>> matrix): Searchable(init, goal/*, states*/), Matrix(matrix){
+    SearchableMatrix(State<Point>* init, State<Point>* goal,/* vector<State<Point>> states,*/
+            vector<vector<State<Point>>>* matrix): Searchable(init, goal/*, states*/), Matrix(matrix){
     }
 
-    virtual State<Point> getInitialState();
-    virtual State<Point> getGoalState();
-    virtual vector<State<Point>> getAllPossibleState(State<Point> state);
+    virtual State<Point>* getInitialState();
+    virtual State<Point>* getGoalState();
+    virtual vector<State<Point>*> getAllPossibleState(State<Point>* state);
 
 };
 

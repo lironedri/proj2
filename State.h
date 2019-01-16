@@ -29,6 +29,10 @@ public:
         this->m_cameFrom = s;
     }
 
+    State<T>* getCameFrom(){
+        return this->m_cameFrom;
+    }
+
     T getState(){
         return this->m_state;
     }
@@ -41,7 +45,7 @@ public:
         return (getState() == s.getState());
     }
 
-//    bool operator<(State<T> leftState, State<T> rightState){
+//    bool operator<(State<Problem> leftState, State<Problem> rightState){
 //        return leftState.getCost() < rightState.getCost() ? true: false;
 //    }
 

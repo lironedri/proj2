@@ -6,41 +6,44 @@
 #include "vector"
 #include "MyPriorityQueue.h"
 
-template <class T>
+using namespace std;
 
-class AlgoBestFirstSearch : public Searcher<vector<State<T>*>, T>{
-    MyPriorityQueue<T> m_openList;
-    MyPriorityQueue<T> m_closedList;
+template <class Problem, class Solution>
+
+class AlgoBestFirstSearch : public Searcher<Problem, Solution>{
+    MyPriorityQueue<Problem> m_openList;
+    MyPriorityQueue<Problem> m_closedList;
 
 public:
-    virtual vector<State<T>*> search(Searchable<T> *searchable) {
-        this->numOfNodesEvaluated = 0;
+    virtual Solution search(Searchable<Problem>* searchable) {
+        this->m_numOfNodesEvaluated = 0;
         //adding the initalState to the open list.
-        State<T> *init = searchable->getInitialState();
-        State<T> *goal = searchable->getGoalState();
-        m_openList.push(init);
-        while (!m_openList.empty()) {
+        State<Problem>* init = searchable->getInitialState();
+        State<Problem>* goal = searchable->getGoalState();
+        m_openList.myPush(init);
+        while (!m_openList.myEmpty()) {
             //start develop the node
-            State<T> *minState = m_openList.pop();
-            this->numOfNodesEvaluated++;
-            m_closedList.push(minState);
+            State<Problem> *minState = m_openList.myTop();
+            m_openList.myPop();
+            this->m_numOfNodesEvaluated++;
+            m_closedList.myPush(minState);
             //if we got to the goal
             if (*minState == *goal) {
-                vector<State<T> *> output = backTrace(init, minState);
-                clearAll(output);
-                return output;
+                vector<State<Problem> *> output = backTrace(init, minState);
+                string sol = convertSolutionToString(output);
+                return sol;
             }
 
 
-            vector<State<T> *> successors = searchable->getAllPossibleState(minState);
+            vector<State<Problem>*> successors = searchable->getAllPossibleState(minState);
             for (int i = 0; i < successors.size(); ++i) {
-                if (!m_openList.isExist(successors[i]) && !m_closedList.isExist(successors[i])) {
-                    m_openList.push(successors[i]);
-                } else if (!m_closedList.isExist(successors[i])) {
-                    State<T> *item = m_openList.find(successors[i]);
+                if (!m_openList.myIsExist(successors[i]) && !m_closedList.myIsExist(successors[i])) {
+                    m_openList.myPush(successors[i]);
+                } else if (!m_closedList.myIsExist(successors[i])) {
+                    State<Problem> *item = m_openList.myFind(successors[i]);
                     if (successors[i]->getCost() < item->getCost()) {
-                        m_openList.erase(item);
-                        m_openList.push(successors[i]);
+                        m_openList.myCut(item);
+                        m_openList.myPush(successors[i]);
                     }else{
                         delete (successors[i]);
                     }
@@ -50,15 +53,14 @@ public:
             }
         }
 
-        vector<State<T> *> emptyVector;
-        clearAll(emptyVector);
-        return emptyVector;
+        string sol = "";
+        return sol;
     }
 
-    vector<State<T> *> backTrace(State<T> *init, State<T> *goal) {
-        vector<State<T> *> trace;
-        vector<State<T> *> output;
-        State<T> *tempState = goal;
+    vector<State<Problem>*> backTrace(State<Problem> *init, State<Problem> *goal) {
+        vector<State<Problem> *> trace;
+        vector<State<Problem> *> output;
+        State<Problem> *tempState = goal;
 
         while (!(*tempState == *init)) {
             trace.push_back(tempState);
@@ -72,30 +74,12 @@ public:
         return output;
     }
 
-
-    void clearAll(vector<State<T> *> output) {
-        State<T> *temp;
-        while (!m_openList.empty()) {
-            delete (m_openList.pop());
-        }
-        while (!m_closedList.empty()) {
-
-            temp = m_closedList.pop();
-
-            for (int i = 0; i < output.size(); i++) {
-                if (output[i] == temp) {
-                    break;
-                }
-                if (i == output.size() - 1) {
-                    delete (temp);
-                }
-            }
-
-        }
+    string convertSolutionToString(vector<State<Problem>*> vecSol){
+        //todo
+        return "liron";
     }
 
     AlgoBestFirstSearch(){
-
     }
 };
 

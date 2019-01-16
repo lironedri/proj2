@@ -25,7 +25,7 @@ public:
         this->m_cost = cost;
     }
 
-    void setCameFrom(State<T> s) {
+    void setCameFrom(State<T>* s) {
         this->m_cameFrom = s;
     }
 

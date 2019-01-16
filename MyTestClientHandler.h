@@ -17,7 +17,6 @@ namespace server_side {
         }
 
         void handleClient(int socketID);
-
     };
 }
 
